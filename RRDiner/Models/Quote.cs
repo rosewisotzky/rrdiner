@@ -12,7 +12,7 @@ namespace RRDiner.Models
         public Character Character { get; set; }
         public int SeasonId { get; set; }
         public Season Season { get; set; }
-        public string QuoteContent { get; set; }
+        public string Content { get; set; }
 
     }
 }

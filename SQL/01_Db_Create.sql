@@ -21,41 +21,31 @@ CREATE TABLE [Character] (
   [FirstName] nvarchar(50) NOT NULL,
   [LastName] nvarchar(50) NOT NULL,
   [ImageLocation] nvarchar(255),
-
-)
-
-CREATE TABLE [Quote] (
-  [Id] integer PRIMARY KEY IDENTITY,
-  [SubscriberUserProfileId] integer NOT NULL,
-  [ProviderUserProfileId] integer NOT NULL,
-  [BeginDateTime] datetime NOT NULL,
-  [EndDateTime] datetime,
-
-  CONSTRAINT [FK_Subscription_UserProfile_Subscriber] FOREIGN KEY ([SubscriberUserProfileId])
-	REFERENCES [UserProfile] ([Id]),
-
-  CONSTRAINT [FK_Subscription_UserProfile_Provider] FOREIGN KEY ([ProviderUserProfileId])
-	REFERENCES [UserProfile] ([Id])
+  [Bio] nvarchar(500)
 )
 
 CREATE TABLE [Season] (
   [Id] integer PRIMARY KEY IDENTITY,
   [Name] nvarchar(50) NOT NULL
 )
-
 CREATE TABLE [CharacterSeason] (
   [Id] integer PRIMARY KEY IDENTITY,
-  [Title] nvarchar(255) NOT NULL,
-  [Content] text NOT NULL,
-  [ImageLocation] nvarchar(255),
-  [CreateDateTime] datetime NOT NULL,
-  [PublishDateTime] datetime,
-  [IsApproved] bit NOT NULL,
-  [CategoryId] integer NOT NULL,
-  [UserProfileId] integer NOT NULL,
+  [CharacterId] integer NOT NULL,
+  [SeasonId] integer NOT NULL
 
-  CONSTRAINT [FK_Post_Category] FOREIGN KEY ([CategoryId]) REFERENCES [Category] ([Id]),
-  CONSTRAINT [FK_Post_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
+  CONSTRAINT [FK_CharacterSeason_Character] FOREIGN KEY ([CharacterId]) REFERENCES [Character] ([Id]),
+  CONSTRAINT [FK_CharacterSeason_Season] FOREIGN KEY ([SeasonId]) REFERENCES [Season] ([Id])
 )
+CREATE TABLE [Quote] (
+  [Id] integer PRIMARY KEY IDENTITY,
+  [CharacterSeasonId] integer NOT NULL,
+  [Content] nvarchar(50) NOT NULL,
+  [SubmitDateTime] datetime NOT NULL
+  
+
+  CONSTRAINT [FK_Quote_CharacterSeason] FOREIGN KEY ([CharacterSeasonId])
+	REFERENCES [CharacterSeason] ([Id])
+)
+
 
 GO
